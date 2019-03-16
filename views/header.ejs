@@ -1,0 +1,19 @@
+<nav style="position:fixed;z-index:100;height:50px;background-color:#2196f3;">   
+      <a style="float:right;position:relative;bottom:5px;right:10px;" href="/">Logout</a></a>
+	  
+	  <span style="float:left;position:relative;left:180px;bottom:5px;">USER : <span id="user_name"></span></span>
+	  <span style="float:right !important;position:relative;right:30px;bottom:5px;"><span id="today_date"></span></span>
+  </nav>
+ <br><br><br>
+ 
+
+<script src="https://momentjs.com/downloads/moment.min.js"></script> 
+ <script>
+ get_time();
+ function get_time()
+ {
+ var time =moment().format('MMMM Do YYYY, h:mm:ss a');
+ document.getElementById('today_date').innerHTML=time;
+  setTimeout(get_time, 1000);
+ }
+ </script>

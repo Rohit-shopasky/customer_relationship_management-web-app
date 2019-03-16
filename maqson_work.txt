@@ -1,0 +1,19 @@
+maqson
+
+order form--
+vehicle number uppercase, space disabled
+Date on system 
+
+make mobile no as driver mob no
+
+agent code optional make toggle button if not necessary
+
+------------
+dashboard 
+
+make calender view har ek date ke  sath no of order ayega
+
+
+
+
+

@@ -1,0 +1,297 @@
+<html>
+<head>
+      <title>Agent Daily Commision</title>
+	
+	  <meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">   
+</head>
+<style>
+
+#header
+{
+background:#ee6e73;height:70px;
+}
+
+.heading_top
+{
+color:white;font-family:segoe print;font-weight:bold;margin-top:20px;
+}
+
+.menu_items
+{
+color:red;
+}
+
+#menu_card
+{
+height:100%;background-color:#616161;width:160px;position:fixed;left:-10px;top:40px;overflow-x:scroll;
+}
+
+.menu_text
+{
+color:white;font-weight:bold;
+}
+
+.menu_text:hover
+{
+ cursor:pointer;color:#ee6e73;
+}
+
+.menu_icons
+{
+margin-right:10px;position:relative;top:2px;
+}
+
+#right_content
+{
+float:right;margin-right:30px;margin-top:-16px;height:530px;
+}
+
+#open_modal
+{
+   float:right;background-color:#ee6e73;
+}
+
+#form_save
+{
+float:right;margin-right:10px;
+}
+
+#save_edits
+{
+float:right;margin-right:10px;
+}
+
+#delete_row
+{
+float:left;
+}
+
+.row
+{
+cursor:pointer;
+}
+
+#modal_cross
+{
+float:right;color:red;margin-top:-40px;margin-right:20px;
+}
+
+#btn
+{
+height: 34px;
+	width:85px;
+    line-height: 20px;
+    padding: 7 0 0 0;
+	font-size:12px;
+	margin-left:50px;
+}
+
+.profile_pic
+{
+width:50px;height:50px;
+}
+
+.filter_link
+{
+ position:relative;top:20px;
+}
+
+.total_value
+{
+float:right;margin-right:10px;
+}
+
+
+
+</style>
+<body>
+
+   
+  
+ <div class="row">
+   <% include header.ejs %>
+  <!-- content starts  -->
+  <div  class="col s12 m12 l12">
+ 
+   <!-- menu starts -->
+   <div class="row">
+    <div class="col s2 m2 l2">
+      <div class="card" id="menu_card">
+        <div class="card-content white-text">
+             <% include menu_items.ejs %>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- menu ends -->
+  
+ 
+  
+  
+   <!-- Modal Starts -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <center><h4>Edit Agent</h4></center>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+   
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="e_agent_name" type="text" class="validate">
+          <label for="e_agent">Agent Name*</label>
+        </div>
+
+		<div class="input-field col s6">
+          <input id="e_mobile" type="text" class="validate">
+          <label for="e_mobile">Mobile Number*</label>
+        </div>
+		
+
+		<div class="input-field col s6">
+            <input type="text" id="e_address" class="validate"  />
+            <label for="e_address">Address*</label>
+        </div>
+		
+		<div class="input-field col s6">
+            <input type="text" id="e_agent_code" name="agent_code" class="validate"  />
+            <label for="e_agent_code">Agent_code*</label>
+        </div>
+      </div>
+	  
+	  
+	  <form id="form" enctype="multipart/form-data" method="post" name="e_photo">
+      <div style="margin-left:-50px;" class="file-field input-field">
+       <div id="btn" class="btn">
+         <span><i class="small material-icons">perm_media</i></span>
+         <input  onchange="e_upload_profile_photo()"  type="file" name="e_profile_photo" id="file_upload"></div>
+	  <div  class="file-path-wrapper">
+	  <input style="margin-top:-10px;" placeholder="Profile photo" class="file-path validate" id="f_path" type="text"></div>
+	  
+	  </div>
+</form>
+
+<form id="form" enctype="multipart/form-data" method="post" name="e_photo_id">
+      <div style="margin-left:-50px;" class="file-field input-field">
+       <div id="btn" class="btn">
+         <span><i class="small material-icons">perm_media</i></span>
+         <input  onchange="e_upload_photo_id()"  type="file" name="e_agent_photo_id" id="e_agent_photo_id"></div>
+	  <div  class="file-path-wrapper">
+	  <input style="margin-top:-10px;" placeholder="Photo Id" class="file-path validate" id="f_path" type="text"></div>
+	  
+	  </div>
+</form>
+	  
+     <span id="edit_agent_id" style="visibility:hidden"></span>
+     <a id="save_edits"  href="#" class="modal-close waves-effect waves-light btn">Save edits</a>
+	  <a id="delete_agent"  href="#" class="modal-close waves-effect waves-light red btn">Delete Agent</a>
+    
+  </div>
+	  
+	  
+    </div>
+   <br>
+      
+    
+  </div>  
+  
+  <!-- Modal ends-->
+  
+  <!-- Modal starts -->
+  <div id="view_id" class="modal">
+   <center><h6>Photo Id</h6></center>
+       <br>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+   
+     <img id="id_image"  style="width:100%;height:100%">
+      </div>
+  </div>
+  <!-- Modal Ends -->
+  
+ <!-- table starts -->
+    <div id="right_content" class="col s11 m10 l10">
+      <div class="card white">
+        <div class="card-content gray-text">
+        <span  class="card-title">Agent Transaction History</span>
+		<div class="row">
+		
+		<div class="input-field col s2">
+		<input type="text" value="<%= start_date!='' ? start_date : ''%>" id="start_date" class="datepicker">
+		<label>From</label>
+		</div>
+		
+		<div class="input-field col s2">
+		<input type="text" id="end_date" value="<%= end_date!='' ? end_date : '' %>" class="datepicker">
+		<label>To</label>
+		</div>
+		
+		
+		<div class="input-field col s2">
+		<input type="text" value="<%= agent_code!=0 ? agent_code : '' %>" id="agent_code">
+		<label>Agent Code</label>
+		</div>
+				
+		<div class="col s2">
+		<a class="filter_link" id="submit" href="#">Submit</a>
+		</div>
+		
+		<span class="total_value"><b>Opening Balance: </b>Rs <%= opening ? opening[0].opening : '0'%> </span>
+	       
+		</div>
+		
+        <table class="striped centered">
+        <thead>
+          <tr>
+              <th>S.No</th>
+              <th>Day</th>
+			  <th>Commision</th>
+			  
+          </tr>
+        </thead>
+
+        <tbody>
+         <%for(var i=0;i<result.length;i++) {
+		  var date_string=new Date(result[i].created_date);
+	      date_string=date_string.toString();
+	     date_string=date_string.split(' ').slice(0, 5).join(' ');
+		 
+		 %>
+		<tr class="row">
+		 <td><%= i+1 %></td>
+		 <td><%= date_string %></td>
+		 <td><%= result[i].commision %></td>
+         </tr>
+        <% } %>	
+        </tbody>
+      </table>
+	      <br>
+          <span class="total_value"><b>Closing Balance: </b>Rs <%= closing ? closing[0].closing : '0'%></span>    
+		  <br>
+        </div>
+        
+      </div>
+	  
+    </div>
+	
+ <!-- table ends-->
+ 
+  </div>
+ <!-- content ends -->
+
+	  <div id="footer">
+	  </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	<script src="https://momentjs.com/downloads/moment.min.js"></script>
+	<script src="views/js/agent_history.js"></script>
+</body>
+</html>
+
+
+
+

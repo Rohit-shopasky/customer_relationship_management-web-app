@@ -1,0 +1,330 @@
+<html>
+<head>
+      <title>Roles</title>
+	
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+      
+       
+</head>
+<style>
+
+#header
+{
+background:#ee6e73;height:70px;
+}
+
+.heading_top
+{
+color:white;font-family:segoe print;font-weight:bold;margin-top:20px;
+}
+
+.menu_items
+{
+color:red;
+}
+
+#menu_card
+{
+height:100%;background-color:#616161;width:160px;position:fixed;left:-10px;top:40px;overflow-y:scroll;overflow-x:scroll
+}
+
+.menu_text
+{
+color:white;font-weight:bold;
+}
+
+.menu_text:hover
+{
+ cursor:pointer;color:#ee6e73;
+}
+
+.menu_icons
+{
+margin-right:10px;position:relative;top:2px;
+}
+
+#right_content
+{
+float:right;margin-right:30px;margin-top:-16px;height:530px;
+}
+
+#open_modal
+{
+   float:right;background-color:#ee6e73;
+}
+
+#form_save
+{
+float:right;margin-right:10px;
+}
+
+#save_edits
+{
+float:right;margin-right:10px;
+}
+
+#delete_row
+{
+float:left;
+}
+
+.row
+{
+cursor:pointer;
+}
+
+#modal_cross
+{
+float:right;color:red;margin-top:-40px;margin-right:20px;
+}
+
+#btn
+{
+height: 34px;
+	width:85px;
+    line-height: 20px;
+    padding: 7 0 0 0;
+	font-size:12px;
+	margin-left:50px;
+}
+
+.profile_pic
+{
+width:50px;height:50px;
+}
+
+
+</style>
+<body>
+
+   
+  
+ <div class="row">
+   <% include header.ejs %>
+  <!-- content starts  -->
+  <div  class="col s12 m12 l12">
+ 
+   <!-- menu starts -->
+   <div class="row">
+    <div class="col s2 m2 l2">
+      <div class="card" id="menu_card">
+        <div class="card-content white-text">
+             <% include menu_items.ejs %>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- menu ends -->
+  
+   <!-- Modal Starts -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <center><h4>Add Agent</h4></center>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+    
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="agent_name" type="text" class="validate">
+          <label for="agent_name">Agent Name*</label>
+        </div>
+		
+		<div class="input-field col s6">
+            <input type="number" id="mobile" name="unit_price" class="validate"  />
+            <label for="mobile">Mobile Number*</label>
+        </div>
+		
+		<div class="input-field col s6">
+            <input type="text" id="address" name="address" class="validate"  />
+            <label for="tax">Address*</label>
+        </div>
+
+		<div class="input-field col s6">
+            <input type="text" id="agent_code" name="agent_code" class="validate"  />
+            <label for="price">Agent Code*</label>
+        </div>
+      </div>
+	  
+	  <form id="form" enctype="multipart/form-data" method="post" name="photo">
+      <div style="margin-left:-50px;" class="file-field input-field">
+       <div id="btn" class="btn">
+         <span><i class="small material-icons">perm_media</i></span>
+         <input  onchange="upload_profile_photo()"  type="file" name="profile_photo" id="file_upload"></div>
+	  <div  class="file-path-wrapper">
+	  <input style="margin-top:-10px;" placeholder="Profile photo" class="file-path validate" id="f_path" type="text"></div>
+	  
+	  </div>
+</form>
+
+<form id="form" enctype="multipart/form-data" method="post" name="photo_id">
+      <div style="margin-left:-50px;" class="file-field input-field">
+       <div id="btn" class="btn">
+         <span><i class="small material-icons">perm_media</i></span>
+         <input  onchange="upload_photo_id()"  type="file" name="agent_photo_id" id="agent_photo_id"></div>
+	  <div  class="file-path-wrapper">
+	  <input style="margin-top:-10px;" placeholder="Photo Id" class="file-path validate" id="f_path" type="text"></div>
+	  
+	  </div>
+</form>
+
+
+	  
+     <span style="color:#ee6e73;font-size:15px;">Fields marked * are required</span>
+	 <a id="form_save"  href="#" class=" waves-effect waves-light btn">Save</a>
+  </div>
+	  
+	  
+	  
+    </div>
+   <br>
+      
+    
+  </div>  
+  
+  <!-- Modal ends-->
+  
+  
+   <!-- Modal Starts -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <center><h4>Edit User</h4></center>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+   
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="e_user_name" type="text" class="validate">
+          <label for="e_agent">Username*</label>
+        </div>
+
+		<div class="input-field col s6">
+            <input type="text" id="e_email" class="validate"  />
+            <label for="e_email">Email*</label>
+        </div>
+		<div class="input-field col s6">
+		<label>Access pages (Select option and click add/remove button to give/take access)</label>
+		<br><br><br>
+		<select style=""  id="access_pages" class="browser-default"  onchange="permit(this.value)">
+		     
+               <% for(var j=0;j<all_pages.length;j++) {%>
+	               <option  id="<%= all_pages[j].page_id %>" value="<%= all_pages[j].page_id %>"> <%= all_pages[j].page_name %></option>
+	            <% } %>
+             </select>
+	    <button id="remove_all">Remove all</button>
+		<button id="remove">Remove</button>
+		<button id="add">Add</button>
+		
+		</div>
+		
+		
+		<div class="input-field col s6">
+		<label>Access pages </label>
+		<br>
+		  <p id="page_name"></p>
+		  <p style="display:none;" id="page_id"></p>
+		</div>
+		
+      </div>
+	  	  
+     <span id="edit_user_id" style="display:none"></span>
+     <a id="save_edits"  href="#" class="modal-close waves-effect waves-light btn">Save edits</a>
+	  
+    
+  </div>
+	  
+	  
+    </div>
+   <br>
+      
+    
+  </div>  
+  
+  <!-- Modal ends-->
+  
+  <!-- Modal starts -->
+  <div id="view_id" class="modal">
+   <center><h6>Photo Id</h6></center>
+       <br>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+   
+     <img id="id_image"  style="width:100%;height:100%">
+      </div>
+  </div>
+  <!-- Modal Ends -->
+  
+ <!-- table starts -->
+    <div id="right_content" class="col s11 m10 l10">
+      <div class="card white">
+        <div class="card-content gray-text">
+        <span  class="card-title">Access</span>
+		
+		<table class="striped">
+		<thead>
+		  <th>S.No</th>
+		  <th>User Name</th>
+		  <th>Access</th>
+		  <th>Action</th>
+		</thead>
+		<tbody>
+		<% for(var i=0;i<alc.length;i++) {   if(!alc[i].page_ids){alc[i].page_ids=""}%>
+		<tr>
+		 <td><%= i+1 %></td>
+		 <td><%= alc[i].user_name %></td>
+		   <!--td> 
+		   <div class="input-field col s5">
+             <select  id="<%= alc[i].user_id%>" onchange="permit(this.id)" multiple>
+               <% for(var j=0;j<all_pages.length;j++) {%>
+	               <option value="<%= all_pages[j].page_id %>" <%= alc[i].page_ids.indexOf(all_pages[j].page_id)>-1 ? 'selected':'' %>><%= all_pages[j].page_name %></option>
+	            <% } %>
+             </select>
+            <label>Give access to these pages</label>
+            </div>
+		  </td -->
+		  
+		  <td>
+		   <ul>
+		  <% for(var j=0;j<all_pages.length;j++) { %>
+		  <li><%= alc[i].page_ids.indexOf(all_pages[j].page_id)>-1 ? all_pages[j].page_name:'' %></li>
+		  <% } %>
+		   </ul>
+		  </td>
+		  
+		  <td>
+		  <a title="Click to edit or delete this row" onclick="get_user_data(<%=alc[i].user_id%>)" class="edit_link" href="#modal2" class="modal-trigger"><i class="material-icons">edit</i></a>
+		  </td>
+		  
+		</tr>
+		<% } %>
+		</tbody>
+		</table>
+        
+              
+        </div>
+        
+      </div>
+    </div>
+ <!-- table ends-->
+ 
+  </div>
+ <!-- content ends -->
+
+	  <div id="footer">
+	  </div>
+<script type = "text/javascript"
+         src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>    
+		 
+      <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+      </script>
+	  <script src="views/js/role.js"></script>
+    
+</body>
+</html>
+
+
+
+

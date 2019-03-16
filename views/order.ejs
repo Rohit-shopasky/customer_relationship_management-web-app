@@ -1,0 +1,218 @@
+<html>
+<head>
+      <title>Orders</title>
+	
+	  
+	  <meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">  
+</head>
+<style>
+
+#header
+{
+background:#ee6e73;height:70px;
+}
+
+.heading_top
+{
+color:white;font-family:segoe print;font-weight:bold;margin-top:20px;
+}
+
+.menu_items
+{
+color:red;
+}
+
+#menu_card
+{
+height:100%;background-color:#616161;width:160px;position:fixed;left:-10px;top:40px;overflow-x:scroll;
+}
+
+.menu_text
+{
+color:white;font-weight:bold;
+}
+
+.menu_text:hover
+{
+ cursor:pointer;color:#ee6e73;
+}
+
+.menu_icons
+{
+margin-right:10px;position:relative;top:2px;
+}
+
+#right_content
+{
+float:right;margin-right:30px;margin-top:-16px;height:530px;
+}
+
+#open_modal
+{
+   float:right;background-color:#ee6e73;
+}
+
+#form_save
+{
+float:right;margin-right:10px;
+}
+
+#save_edits
+{
+float:right;margin-right:10px;
+}
+
+#delete_row
+{
+float:left;
+}
+
+.row
+{
+cursor:pointer;
+}
+
+#modal_cross
+{
+float:right;color:red;margin-top:-40px;margin-right:20px;
+}
+
+#btn
+{
+height: 34px;
+	width:85px;
+    line-height: 20px;
+    padding: 7 0 0 0;
+	font-size:12px;
+	margin-left:50px;
+}
+
+.profile_pic
+{
+width:50px;height:50px;
+}
+
+.filter_link
+{
+ position:relative;top:20px;
+}
+
+
+</style>
+<body>
+
+   
+  
+ <div class="row">
+   <% include header.ejs %>
+  <!-- content starts  -->
+  <div  class="col s12 m12 l12">
+ 
+   <!-- menu starts -->
+   <div class="row">
+    <div class="col s2 m2 l2">
+      <div class="card" id="menu_card">
+        <div class="card-content white-text">
+             <% include menu_items.ejs %>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- menu ends -->
+  
+  
+	
+	
+   <br>
+      
+    
+  </div>  
+  
+  
+  
+  
+ <!-- table starts -->
+    <div id="right_content" class="col s11 m10 l10">
+      <div class="card white">
+        <div class="card-content gray-text">
+        <span  class="card-title">Orders</span>
+		<a id="open_modal" class="waves-effect waves-light btn modal-trigger" href="/place_order"><i class="material-icons left">add</i>Order</a>
+		
+		<div class="row">
+		
+		<div class="input-field col s2">
+		<input type="text" id="start_date" value="<%= start_date!='' ? start_date : ''%>" class="datepicker">
+		<label>Orders From Date</label>
+		</div>
+		
+		<div class="input-field col s2">
+		<input type="text" id="end_date" value="<%= start_date!='' ? end_date : ''%>" class="datepicker">
+		<label>Orders To Date</label>
+		</div>
+		
+		<div class="col s2">
+		<a class="filter_link" id="filter_link" href="#">Apply Filter</a>
+		</div>
+		
+		
+        <table class="striped centered">
+        <thead>
+          <tr>
+              <th>Order No</th>
+              <th>Quantity Purchased(Foot)</th>
+			  <th>Price(Unit)</th>
+			  <th>Total Amount</th>
+			  <th>Discount</th>
+			  <th>Net Amount</th>
+			  <th>Agent Name</th>
+			  <th>Vehicle Number</th>
+			  <th>Order Date</th>
+          </tr>
+        </thead>
+   
+        <tbody>
+         <%for(var i=0;i<result.length;i++) {
+		  var date_string=new Date(result[i].created_date);
+	      date_string=date_string.toString();
+	     date_string=date_string.split(' ').slice(0, 5).join(' ');
+		 
+		 %>
+		<tr class="row">
+		<td><%= result[i].order_id%></td>
+		 <td><%= result[i].qty_purchased%></td>
+		 <td><%= result[i].price%></td>
+		 <td><%= result[i].total_amount %></td>
+		 <td><%= result[i].discount%></td>
+		 <td><%= result[i].net_amount %></td>
+		 <td><%= result[i].name%></td>
+		 <td><%= result[i].vehicle_number%></td>
+		 <td><%= date_string %></td>
+         </tr>
+        <% } %>	
+        </tbody>
+      </table>
+              
+        </div>
+        
+      </div>
+    </div>
+ <!-- table ends-->
+ 
+  </div>
+ <!-- content ends -->
+
+	  <div id="footer">
+	  </div>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	<script src="views/js/order.js"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,337 @@
+<html>
+<head>
+      <title>Agent Detail</title>
+	
+	  <meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> 
+        
+</head>
+<style>
+
+#header
+{
+background:#ee6e73;height:70px;
+}
+
+.heading_top
+{
+color:white;font-family:segoe print;font-weight:bold;margin-top:20px;
+}
+
+.menu_items
+{
+color:red;
+}
+
+#menu_card
+{
+height:100%;background-color:#616161;width:160px;position:fixed;left:-10px;top:40px;overflow-x:scroll;
+}
+
+.menu_text
+{
+color:white;font-weight:bold;
+}
+
+.menu_text:hover
+{
+ cursor:pointer;color:#ee6e73;
+}
+
+.menu_icons
+{
+margin-right:10px;position:relative;top:2px;
+}
+
+#right_content
+{
+float:right;margin-right:30px;margin-top:-16px;height:530px;
+}
+
+#open_modal
+{
+   float:right;background-color:#ee6e73;
+}
+
+#form_save
+{
+float:right;margin-right:10px;
+}
+
+#save_edits
+{
+float:right;margin-right:10px;
+}
+
+#delete_row
+{
+float:left;
+}
+
+.row
+{
+cursor:pointer;
+}
+
+#modal_cross
+{
+float:right;color:red;margin-top:-40px;margin-right:20px;
+}
+
+#btn
+{
+height: 34px;
+	width:85px;
+    line-height: 20px;
+    padding: 7 0 0 0;
+	font-size:12px;
+	margin-left:50px;
+}
+
+.profile_pic
+{
+width:50px;height:50px;
+}
+
+#profile_image
+{
+ height:190px;
+}
+
+#agent_detail
+{
+ position:relative;left:20px;height:190px;
+}
+
+#filter_link
+{
+position:relative;top:20px;
+}
+
+</style>
+<body>
+
+   
+  
+ <div class="row">
+   <% include header.ejs %>
+  <!-- content starts  -->
+  <div  class="col s12 m12 l12">
+ 
+   <!-- menu starts -->
+   <div class="row">
+    <div class="col s2 m2 l2">
+      <div class="card" id="menu_card">
+        <div class="card-content white-text">
+             <% include menu_items.ejs %>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- menu ends -->
+  
+   <!-- Modal Starts -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <center><h4>Add Agent</h4></center>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+    
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="agent_name" type="text" class="validate">
+          <label for="agent_name">Agent Name*</label>
+        </div>
+		
+		<div class="input-field col s6">
+            <input type="number" id="mobile" name="unit_price" class="validate"  />
+            <label for="mobile">Mobile Number*</label>
+        </div>
+		
+		<div class="input-field col s6">
+            <input type="text" id="address" name="address" class="validate"  />
+            <label for="tax">Address*</label>
+        </div>
+
+		<div class="input-field col s6">
+            <input type="text" id="agent_code" name="agent_code" class="validate"  />
+            <label for="price">Agent Code*</label>
+        </div>
+		
+		<div class="input-field col s6">
+            <input type="number" id="agent_discount" name="agent_discount" class="validate"  />
+            <label for="price">Agent Discount(Rs)*</label>
+        </div>
+		
+		<div class="input-field col s6">
+            <input type="number" id="agent_commision" name="agent_commision" class="validate"  />
+            <label for="price">Agent Commision(Rs)*</label>
+        </div>
+		
+      </div>
+	  
+	  <form id="form" enctype="multipart/form-data" method="post" name="photo">
+      <div style="margin-left:-50px;" class="file-field input-field">
+       <div id="btn" class="btn">
+         <span><i class="small material-icons">perm_media</i></span>
+         <input  onchange="upload_profile_photo()"  type="file" name="profile_photo" id="file_upload"></div>
+	  <div  class="file-path-wrapper">
+	  <input style="margin-top:-10px;" placeholder="Profile photo" class="file-path validate" id="f_path" type="text"></div>
+	  
+	  </div>
+</form>
+
+<form id="form" enctype="multipart/form-data" method="post" name="photo_id">
+      <div style="margin-left:-50px;" class="file-field input-field">
+       <div id="btn" class="btn">
+         <span><i class="small material-icons">perm_media</i></span>
+         <input  onchange="upload_photo_id()"  type="file" name="agent_photo_id" id="agent_photo_id"></div>
+	  <div  class="file-path-wrapper">
+	  <input style="margin-top:-10px;" placeholder="Photo Id" class="file-path validate" id="f_path" type="text"></div>
+	  
+	  </div>
+</form>
+
+
+	  
+     <span style="color:#ee6e73;font-size:15px;">Fields marked * are required</span>
+	 <a id="form_save"  href="#" class=" waves-effect waves-light btn">Save</a>
+  </div>
+	  
+	  
+	  
+    </div>
+   <br>
+      
+    
+  </div>  
+  
+  <!-- Modal ends-->
+  
+  
+   <!-- Modal Starts -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <center><h4>Visit Details</h4></center>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+        
+       <table class="striped">
+		   <thead>
+		      <tr>
+              <th>Order No</th>
+              <th>Quantity Purchased(Foot)</th>
+			  <th>Price(Unit)</th>
+			  <th>Total Amount</th>
+			  <th>Discount</th>
+			  <th>Net Amount</th>
+			  <th>Vehicle Number</th>
+			  <th>Order Date</th>
+          </tr>
+		   </thead>
+		   <tbody id="parent_table2">
+		     
+		   </tbody>
+		 </table>
+	  
+      </div>
+	  
+	  
+    </div>
+   <br>
+      
+    
+  </div>  
+  
+  <!-- Modal ends-->
+  
+  <!-- Modal starts -->
+  <div id="view_id" class="modal">
+   <center><h6>Photo Id</h6></center>
+       <br>
+      <i id="modal_cross" class="material-icons modal-close">close</i>
+	  <div class="row">
+   
+     <img id="id_image"  style="width:100%;height:100%">
+      </div>
+  </div>
+  <!-- Modal Ends -->
+  
+ <!-- table starts -->
+    <div id="right_content" class="col s11 m10 l10">
+      <div class="card white">
+        <div class="card-content gray-text">
+        <span  class="card-title"></span>
+		
+        <div class="row">
+		  <div class="col s2" id="profile_image">
+		     <img src="<%= agent_detail[0].photo %>" style="width:160px;height:185px;" alt="Agent Photo  Not avaliable"/>
+		  </div>
+		  <div class="col s6" id="agent_detail">
+		    <h5><%= agent_detail[0].name %></h5>
+			<span><b>Agent Code:</b> <%= agent_detail[0].agent_code %></span>
+			<span style="display:none" id="agent_code_profile"><%= agent_detail[0].agent_code %></span>
+			<br>
+			<span><b>Mobile:</b> <%= agent_detail[0].mobile %></span>
+			<br>
+			<span><b>Address:</b> <%= agent_detail[0].address %></span>
+			<br>
+			<span><b>Commision:</b> Rs <%= agent_detail[0].commision %></span>
+			<br>
+			<span><b>Discount:</b> Rs <%= agent_detail[0].agent_discount %></span>
+		  </div>
+		</div>
+		
+		<div class="row">
+		
+		<div class="input-field col s2">
+		<input type="text" id="start_date" value="" class="datepicker">
+		<label>Orders From Date</label>
+		</div>
+		
+		<div class="input-field col s2">
+		<input type="text" id="end_date" value="" class="datepicker">
+		<label>Orders To Date</label>
+		</div>
+		
+		<div class="col s2">
+		<a class="filter_link" id="filter_link" href="#">Apply Filter</a>
+		</div>
+		</div>
+    
+         <h6>Total Visits: <b><span href="#modal2" class="" id="total_visits"></span></b></h6>
+         <table class="striped centered">
+		  <thead>
+		   <th>Date</th>
+		   <th>Orders</th>
+		  </thead>
+		  
+		  <tbody id="parent_table">
+		  
+		  </tbody>
+		</table>		 
+	
+        </div>
+        
+      </div>
+    </div>
+ 
+ 
+  </div>
+ <!-- content ends -->
+
+	  <div id="footer">
+	  </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	<script src="https://momentjs.com/downloads/moment.min.js"></script>
+       <script src="views/js/agent_detail.js"></script>
+</body>
+</html>
+
+
+
+
