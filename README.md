@@ -1,1 +1,1 @@
-This is an invertory management web app of www.hungryjars.com
+This is an invertory management web app of http://www.maqsondevelopers.com/
